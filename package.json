@@ -9,6 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^3.0.7"
+    "vite": "^3.0.7",
+    "vite-plugin-glsl": "^0.3.0"
+  },
+  "dependencies": {
+    "require": "^2.4.20",
+    "three": "^0.143.0",
+    "three-orbit-controls": "^82.1.0",
+    "threejs-glsl-loader": "^1.0.4"
   }
 }
