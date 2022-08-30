@@ -7,17 +7,17 @@ export default class Sketch {
   constructor() {
 
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 30);
-    this.camera.position.set(0, 1, 2);
-
+    this.camera.position.set(0, 2, -1);
+    this.camera.rotation.set(-Math.PI/2,0,0)
 
     this.scene = new THREE.Scene();
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById('container')});
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.physicallyCorrectLights = true;
     this.renderer.setClearColor(0x000000, 1)
     this.renderer.outputEncoding = THREE.sRGBEncoding
-    document.getElementById('container').appendChild(this.renderer.domElement)
     this.addMesh()
     this.time = 0
     this.render();
@@ -55,7 +55,6 @@ export default class Sketch {
       depthWrite: false,
     });
     this.mesh = new THREE.Points(this.geometry, this.material);
-    this.mesh.rotation.x = 1.6
     this.scene.add(this.mesh);
   }
 }
