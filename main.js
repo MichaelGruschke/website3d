@@ -6,16 +6,16 @@ import fragment from './shader/fragment.glsl';
 export default class Sketch {
   constructor() {
 
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
-    this.camera.position.set(0,0.5,1);
-    this.camera.view.set()
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 30);
+    this.camera.position.set(0, 1, 2);
+
 
     this.scene = new THREE.Scene();
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.physicallyCorrectLights=true;
-    this.renderer.setClearColor(0x000000,1)
+    this.renderer.physicallyCorrectLights = true;
+    this.renderer.setClearColor(0x000000, 1)
     this.renderer.outputEncoding = THREE.sRGBEncoding
     document.getElementById('container').appendChild(this.renderer.domElement)
     this.addMesh()
@@ -25,7 +25,7 @@ export default class Sketch {
 
   render() {
     this.time++
-    this.mesh.rotation.x = 0.00001*this.time
+    this.material.uniforms.time.value = this.time*0.005
     this.renderer.render(this.scene, this.camera)
     window.requestAnimationFrame(this.render.bind(this))
   }
@@ -37,7 +37,7 @@ export default class Sketch {
     let position = new Float32Array(count * count * 3)
     for (let i = 0; i < count; i++) {
       for (let j = 0; j < count; j++) {
-        position.set([(i/count-0.5)*50, (j/count-0.5)*50,0 ], 3*(count * i + j))
+        position.set([(i / count - 0.5) * 50, (j / count - 0.5) * 50, 0], 3 * (count * i + j))
       }
     }
 
@@ -46,12 +46,16 @@ export default class Sketch {
       fragmentShader: fragment,
       vertexShader: vertex,
       uniforms: {
-        progress: { type: "f", value: 0 }
+        progress: { type: "f", value: 0 },
+        time: { type: "f", value: 0 }
       },
       transparent: true,
-      //side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
     this.mesh = new THREE.Points(this.geometry, this.material);
+    this.mesh.rotation.x = 1.6
     this.scene.add(this.mesh);
   }
 }
