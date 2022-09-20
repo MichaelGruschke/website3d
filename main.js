@@ -26,7 +26,7 @@ export default class Sketch {
   }
 
   moveCamera() {
-    this.container.addEventListener('mousemove', (event)=>{
+    document.addEventListener('mousemove', (event)=>{
       this.mouse.x = (event.clientX / window.innerWidth) * 2 -1;
       this.mouse.y = -(event.clientY / window.innerHeight) *2 +1;
       console.log(this.mouse)
@@ -72,5 +72,21 @@ export default class Sketch {
     this.mesh.rotation.set(Math.PI/2,0,0)
     this.scene.add(this.mesh);
   }
+  addText(){
+    this.text_geometry = new TextGeometry( 'Hello three.js!', {
+		font: font,
+		size: 80,
+		height: 5,
+		curveSegments: 12,
+		bevelEnabled: true,
+		bevelThickness: 10,
+		bevelSize: 8,
+		bevelOffset: 0,
+		bevelSegments: 5
+	} );
+  this.scene.add(this.text_geometry)
+
+  }
+
 }
 new Sketch();
