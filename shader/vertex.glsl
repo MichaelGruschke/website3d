@@ -276,9 +276,9 @@ float cnoise(vec4 P, vec4 rep){
 
 void main(){
     vec3 newPosition = position;
-    newPosition.y += mod(0.5*time,3.);
-    float relu = smoothstep(1.,-2.,newPosition.y);
-    newPosition.z -= 0.5*relu*(newPosition.y*newPosition.y+cnoise(vec4(newPosition,time)))+0.2*newPosition.x*newPosition.x;
+    newPosition.y += mod(time,3.);
+    float relu = smoothstep(1.,0.,newPosition.y);
+    newPosition.z = 0.5*relu*(-newPosition.y*newPosition.y+cnoise(vec4(newPosition,time)))-0.2*newPosition.x*newPosition.x;
     newPosition.xy += 0.5*relu*cnoise(vec4(newPosition,time));
     //newPosition.z += cnoise(vec4(position,time));
     //ewPosition.y += mod((25.*time),10.);

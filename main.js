@@ -7,8 +7,8 @@ export default class Sketch {
   constructor() {
     this.container = document.getElementById('container')  
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 30);
-    this.camera.position.set(0, 2, -1);
-    this.camera.rotation.set(-Math.PI/2,0,0)
+    this.camera.position.set(0, 1, 3);
+    this.camera.rotation.set(0,0,0)
 
     this.scene = new THREE.Scene();
     
@@ -16,7 +16,7 @@ export default class Sketch {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.setClearColor(0x000000, 1)
+    this.renderer.setClearColor(0x101010, 1)
     this.renderer.outputEncoding = THREE.sRGBEncoding
     this.addMesh()
     this.time = 0
@@ -35,9 +35,11 @@ export default class Sketch {
 
   render() {
     this.time++
-    this.material.uniforms.time.value = this.time*0.005
-    this.mesh.rotation.z += (this.mouse.x/5 - this.mesh.rotation.z)*0.01
-    this.mesh.rotation.x += (this.mouse.y/5 - this.mesh.rotation.x)*0.01
+    this.material.uniforms.time.value = this.time*0.001
+    //this.mesh.rotation.z += (this.mouse.x/5 - this.mesh.rotation.z)*0.01
+    //this.mesh.rotation.x += (this.mouse.y/5 - this.mesh.rotation.x)*0.01
+    this.camera.rotation.y += (-this.mouse.x/5 - this.camera.rotation.y)*0.01
+    this.camera.rotation.x += (this.mouse.y/5 - this.camera.rotation.x)*0.01
     this.renderer.render(this.scene, this.camera)
     window.requestAnimationFrame(this.render.bind(this))
   }
@@ -67,6 +69,7 @@ export default class Sketch {
       depthWrite: false,
     });
     this.mesh = new THREE.Points(this.geometry, this.material);
+    this.mesh.rotation.set(Math.PI/2,0,0)
     this.scene.add(this.mesh);
   }
 }
