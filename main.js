@@ -47,11 +47,11 @@ export default class Sketch {
     this.geometry = new THREE.BufferGeometry();
     //this.geometry = new THREE.PlaneBufferGeometry(1, 1, 10, 10)
 
-    let count = 500
+    let count = 150
     let position = new Float32Array(count * count * 3)
     for (let i = 0; i < count; i++) {
       for (let j = 0; j < count; j++) {
-        position.set([(i / count - 0.5) * 50, (j / count - 0.5) * 50, 0], 3 * (count * i + j))
+        position.set([(i / count - 0.5) * 15, (j / count - 0.5) * 15, 0], 3 * (count * i + j))
       }
     }
 
