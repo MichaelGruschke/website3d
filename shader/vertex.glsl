@@ -1,4 +1,5 @@
 uniform float time;
+uniform float point_size;
 
 //	Classic Perlin 3D Noise 
 //	by Stefan Gustavson
@@ -283,6 +284,6 @@ void main(){
     //newPosition.z += cnoise(vec4(position,time));
     //ewPosition.y += mod((25.*time),10.);
     vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.);
-    gl_PointSize = 20. * ( 1. / - mvPosition.z);
+    gl_PointSize = point_size * ( 1. / - mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
 }

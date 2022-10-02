@@ -18,9 +18,11 @@ export default class Sketch {
     this.renderer.physicallyCorrectLights = true;
     this.renderer.setClearColor(0x101010, 1)
     this.renderer.outputEncoding = THREE.sRGBEncoding
+    this.point_size = 25.
     this.addMesh()
     this.time = 0
     this.mouse = new THREE.Vector2(0,0);
+    this.resize();
     this.moveCamera();
     this.render();
   }
@@ -29,15 +31,20 @@ export default class Sketch {
     document.addEventListener('mousemove', (event)=>{
       this.mouse.x = (event.clientX / window.innerWidth) * 2 -1;
       this.mouse.y = -(event.clientY / window.innerHeight) *2 +1;
-      console.log(this.mouse)
+    })
+  }
+
+  resize() {
+    window.addEventListener('resize', (event)=>{
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
     })
   }
 
   render() {
     this.time++
     this.material.uniforms.time.value = this.time*0.001
-    //this.mesh.rotation.z += (this.mouse.x/5 - this.mesh.rotation.z)*0.01
-    //this.mesh.rotation.x += (this.mouse.y/5 - this.mesh.rotation.x)*0.01
     this.camera.rotation.y += (-this.mouse.x/5 - this.camera.rotation.y)*0.01
     this.camera.rotation.x += (this.mouse.y/5 - this.camera.rotation.x)*0.01
     this.renderer.render(this.scene, this.camera)
@@ -45,7 +52,6 @@ export default class Sketch {
   }
   addMesh() {
     this.geometry = new THREE.BufferGeometry();
-    //this.geometry = new THREE.PlaneBufferGeometry(1, 1, 10, 10)
 
     let count = 150
     let position = new Float32Array(count * count * 3)
@@ -60,7 +66,7 @@ export default class Sketch {
       fragmentShader: fragment,
       vertexShader: vertex,
       uniforms: {
-        progress: { type: "f", value: 0 },
+        point_size: { type: "f", value: this.point_size},
         time: { type: "f", value: 0 }
       },
       transparent: true,
